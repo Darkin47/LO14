@@ -10,8 +10,8 @@
 # Give an answer according to the received command.
 # $1 - command
 # $2 - target/current directory
-# $3 - current directory
-# $4 - archive name
+# $3 - current directory/archive name
+# $4 - archive name/previous directory
 # $5 - previous directory
 function handle_msg {
 	while read line; do

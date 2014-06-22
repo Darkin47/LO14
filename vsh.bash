@@ -7,8 +7,8 @@
 ####################
 
 # Include all source files.
-source common.vsh
-source client.vsh
+source vsh_common.bash
+source vsh_client.bash
 
 # Launch the server on the specified port.
 function start_server {
@@ -51,7 +51,7 @@ function main {
 		else
 			ARCHIVE="archives"
 		fi
-		SCRIPT="server.vsh $ARCHIVE"
+		SCRIPT="vsh_server.bash $ARCHIVE"
 		SERVER="ncat -lk localhost 1337 -e" # -e option makes multiples connections possible without broadcasting message to everyone
 	fi
 
