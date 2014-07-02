@@ -1,6 +1,6 @@
 # Vsh Script
 
-Vsh is a bash script that allow you to create an archive server and also a script to connect to a server in order to browse or extract an archive.
+Vsh is a bash script that allow you to create an archive server and also to connect to a server in order to browse or extract an archive.
 The archives are text file with header and then content of files. Unfortunately, there is currently no function to create an archive based on a directory but there is an archive example provided in the `archives` directory.
 
 ## How to use
