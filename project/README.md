@@ -46,4 +46,4 @@ Type help to show them all.
 
 ## License
 
-The MIT License (MIT). Please see [License File](https://github.com/lonk/lo14/blob/master/LICENSE) for more information.
+The MIT License (MIT). Please see [License File](https://github.com/Darkin47/LO14/blob/master/project/LICENSE) for more information.
