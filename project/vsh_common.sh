@@ -7,8 +7,13 @@
 #
 ####################
 
-# Display vsh usage.
-function display_usage {
+# Echo error to STDERR
+err() {
+  echo "[$(date +'%Y-%m-%dT%H:%M:%S%z')]: $@" >&2
+}
+
+# Display vsh usage
+display_usage() {
 	echo 'Usage : vsh [-start port (archives_directory)] [-stop port] [-list destination port] [-browse destination port archive_name] [-extract destination port archive_name]'
 	exit 0
 }
@@ -18,7 +23,7 @@ function display_usage {
 # $2 - IP/port
 # $3 - port
 # $4 - archive_name
-function check_arguments {
+check_arguments() {
 	# check primary option
 	if [[ $1 == '--help' || $1 == '-help' || $1 == '-h' ]]; then
 		display_usage
@@ -65,7 +70,7 @@ function check_arguments {
 
 # Check if the parameter is a valid ip address
 # $1 - IP address
-function check_ip {
+check_ip() {
 	if ! [[ $1 == 'localhost' ]]; then
 		if [[ $(grep -o '\.' <<< "$1" | wc -l) -ne 3 ]]; then
 	    		echo "Parameter '$1' does not look like an IP address."
@@ -93,7 +98,7 @@ function check_ip {
 
 # Check if the parameter is a valid port number
 # $1 - port number
-function check_port {
+check_port() {
 	if ! [[ $1 =~ ^[0-9]+$ ]]; then
 		echo "Parameter '$1' does not look like a port."
 		exit 1
@@ -101,7 +106,7 @@ function check_port {
 }
 
 # Check if the specified server is online and get the welcome message.
-function ping_server {
+ping_server() {
 	local ping=$(send_msg 'ping')
 	if [[ -z $ping ]]; then
 		echo "Could not access to the server $1:$2"
@@ -115,7 +120,7 @@ function ping_server {
 # $1 - IP address
 # $2 - port
 # $3 - archive name
-function find_archive {
+find_archive() {
 	local answer=$(send_msg "find_archive $3")
 	if [[ $answer == false ]]; then
 		echo -e "File '$3' is not present on the server.\nType 'vsh -list $1 $2' to display archives present on the server."
@@ -124,7 +129,7 @@ function find_archive {
 }
 
 # Check if required packages are installed.
-function check_config {
+check_config() {
 	local list='nmap nc.openbsd'
 	local package
 	local result
@@ -143,7 +148,7 @@ function check_config {
 # Execute the command.
 # $1 - option
 # $2 - port
-function execute_command {
+execute_command() {
 	if [[ $1 == '-start' ]]; then
 		start_server "$2"
 	elif [[ $1 == '-stop' ]]; then
@@ -157,7 +162,7 @@ function execute_command {
 			'-list')
 				show_list;;
 			*)
-				echo 'Fatal error!'
+				err 'Fatal error!'
 				exit 1;;
 		esac
 	fi

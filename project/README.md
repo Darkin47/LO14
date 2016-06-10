@@ -9,11 +9,11 @@ The archives are text file with header and then content of files. Unfortunately,
 
 * To start a server :
 <pre>
-	./vsh.bash -start [destination]* [port] [archive_directory]*
+	./vsh -start [destination]* [port] [archive_directory]*
 </pre>
 * To stop a server :
 <pre>
-	./vsh.bash -stop [destination]* [port]
+	./vsh -stop [destination]* [port]
 </pre>
 
 > *: optional.
@@ -22,15 +22,15 @@ The archives are text file with header and then content of files. Unfortunately,
 
 * To display the archives available on a server :
 <pre>
-	./vsh.bash -list [destination] [port]
+	./vsh -list [destination] [port]
 </pre>
 * To browse an archive :
 <pre>
-	./vsh.bash -browse [destination] [port] [archive_name]
+	./vsh -browse [destination] [port] [archive_name]
 </pre>
 * To extract an archive on your computer :
 <pre>
-	./vsh.bash -extract [destination] [port] [archive_name]
+	./vsh -extract [destination] [port] [archive_name]
 </pre>
 
 ### Using browse mode

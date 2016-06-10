@@ -13,7 +13,7 @@
 # $3 - current directory/archive name
 # $4 - archive name/previous directory
 # $5 - previous directory
-function handle_msg {
+handle_msg() {
 	while read line; do
 		set -- $line
 		case $1 in
@@ -184,7 +184,7 @@ function handle_msg {
 }
 
 # Check if the line has to be removed.
-function is_deletable {
+is_deletable() {
 	if [[ $2 == *$1* ]]; then
 		echo true
 	else
@@ -193,7 +193,7 @@ function is_deletable {
 }
 
 # Remove a file from an archive.
-function remove_file {
+remove_file() {
 	lines=($(get_file_lines "$1" "$2" "$3"))
 	if [[ $lines != false ]]; then
 		archive=$(cat "$ARCHIVE/$3.arch")
@@ -220,7 +220,7 @@ function remove_file {
 }
 
 # Update markers in the header of a specified archive.
-function update_markers {
+update_markers() {
 	archive=$(cat "archives/$2.arch")
 	markers=($(echo -e -n "$archive\n" | head -1 | sed -e 's/:/\n/g'))
 	sed -i "s/${markers[0]}:${markers[1]}/${markers[0]}:$((${markers[1]}-$1))/g" archives/$2.arch
@@ -228,7 +228,7 @@ function update_markers {
 
 # Ensure that there is no slash at the end of path by removing them.
 # $1 - the path
-function remove_last_slash {
+remove_last_slash() {
 	if [[ $1 != '/' ]]; then
 		echo "$(sed 's/\/$//' <<< "$1")"
 	else echo "$1"
@@ -237,7 +237,7 @@ function remove_last_slash {
 
 # Get the full root path of the archive.
 # $1 - archive name
-function get_root_path {
+get_root_path() {
 	OIFS=$IFS
 	unset IFS
 	local body=$(head -n 1 "$ARCHIVE"/"$1".arch)
@@ -257,7 +257,7 @@ function get_root_path {
 # Return the full path.
 # $1 - target path
 # $2 - current directory
-function get_full_path {
+get_full_path() {
 	if [[ -z $1 ]]; then
 		local path="$2"
 	elif [[ $1 =~ ^/.* ]]; then
@@ -278,7 +278,7 @@ function get_full_path {
 # Read and translate the path without double dots.
 # $1 - original path
 # $2 - current directory
-function translate_path {
+translate_path() {
 	OIFS=$IFS
 	IFS='/'
 	local array=($1)
@@ -305,7 +305,7 @@ function translate_path {
 
 # Return the new current directory (parent).
 # $1 - current directory
-function double_dot {
+double_dot() {
 	local result="$1"
 	if [[ $result == '/' ]]; then
 		echo 1
@@ -321,7 +321,7 @@ function double_dot {
 	fi
 }
 
-function get_full_path_directory {
+get_full_path_directory() {
 	OIFS=$IFS
 	IFS='/'
 	array=($1)
@@ -333,7 +333,7 @@ function get_full_path_directory {
 	IFS=$OIFS
 }
 
-function get_full_path_file {
+get_full_path_file() {
 	OIFS=$IFS
 	IFS='/'
 	array=($1)
@@ -344,7 +344,7 @@ function get_full_path_file {
 # Check if the directory of path exist. Only used after get_full_path !
 # $1 - directory full path
 # $2 - archive name
-function check_dir_path {
+check_dir_path() {
 	local body=$(head -n 1 "$ARCHIVE"/"$2".arch)
 	local -i start=$(cut -d':' -f1 <<< "$body")
 	local -i end=$(($(cut -d':' -f2 <<< "$body")-1))
@@ -358,7 +358,7 @@ function check_dir_path {
 # $1 - full path
 # $2 - current directory
 # $3 - archive name
-function list_all {
+list_all() {
 	local body=$(head -n 1 "$ARCHIVE"/"$3".arch)
 	local -i start=$(cut -d':' -f1 <<< "$body")
 	local -i end=$(($(cut -d':' -f2 <<< "$body")-1))
@@ -390,7 +390,7 @@ function list_all {
 # $1 - full path
 # $2 - target file
 # $3 - archive name
-function get_file_lines {
+get_file_lines() {
 	local body=$(head -n 1 "$ARCHIVE/$3.arch")
 	local -i start=$(cut -d':' -f1 <<< "$body")
 	local -i end=$(($(cut -d':' -f2 <<< "$body")-1))
@@ -422,7 +422,7 @@ function get_file_lines {
 	fi
 }
 
-# Launch another proccess to handle msg from client
+# Launch a listening server to handle msg from client
 ARCHIVE=$1
 handle_msg
 exit 0
